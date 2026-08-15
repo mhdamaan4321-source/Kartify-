@@ -1,3 +1,9 @@
+import os
+from pathlib import Path
+
+
+
+
 """
 Django settings for kartify_project project.
 
