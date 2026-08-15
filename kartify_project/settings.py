@@ -118,6 +118,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Intha line-ah add pannunga (PythonAnywhere-kku mukhyaam):
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Ungaloda STATICFILES_DIRS iruntha, atha intha maathiri relative path-a maathikonga:
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
