@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Ad - Kartify</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
+        header { background: #002f34; color: white; padding: 15px 40px; }
+        header a { color: #ffce00; text-decoration: none; font-weight: bold; }
+        .container { max-width: 600px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        h2 { color: #002f34; margin-top: 0; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
+        input[type="text"], input[type="number"], textarea, select, input[type="file"] {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;
+        }
+        textarea { resize: vertical; height: 100px; }
+        .submit-btn { background: #20ab89; color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+        .submit-btn:hover { background: #198d71; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="{% url 'home' %}">← Back to Home</a>
+    </header>
+
+    <div class="container">
+        <h2>Post a New Product / Ad</h2>
+        
+        <!-- Corrected Form Tag with enctype -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label>Product Title</label>
+                <input type="text" name="name" placeholder="e.g. iPhone 13 Pro, Honda Dio" required>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category" required>
+                    <option value="">Select Category</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="Form-group">
+                <label>Price (Rs.)</label>
+                <input type="number" name="price" placeholder="e.g. 150000" required>
+            </div>
+
+            <div class="form-group">
+                <label>Location (City)</label>
+                <select name="city" required>
+                    <option value="">Select City</option>
+                    {% for city in cities %}
+                        <option value="{{ city.id }}">{{ city.name }} ({{ city.district.name }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+           <div class="form-group">
+    <label>Product Images</label>
+    <!-- 'image'-ku badhila 'images' nu irukanum -->
+    <input type="file" name="images" accept="image/*" multiple>
+</div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" placeholder="Describe your item in detail..."></textarea>
+            </div>
+
+            <div class="form-group">
+    <label>Phone Number (WhatsApp)</label>
+    <input type="text" name="phone_number" placeholder="e.g. 94771234567" required>
+</div>
+
+
+            <button type="submit" class="submit-btn">Post Ad</button>
+        </form>
+    </div>
+
+</body>
+</html>
