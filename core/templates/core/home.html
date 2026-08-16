@@ -49,10 +49,10 @@
 
                 <!-- Navigation Items -->
                 <div class="ms-auto d-flex align-items-center gap-3">
-                    <!-- Language Switcher (3 Languages) -->
+                    <!-- Language Switcher -->
                     <div class="dropdown">
                         <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            Language
+                            <i class="fas fa-globe"></i> Language
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">English</a></li>
@@ -62,32 +62,27 @@
                     </div>
 
                     {% if user.is_authenticated %}
-                        <!-- Chat Icon -->
-                        <a href="#" class="text-white text-decoration-none fw-semibold">
+                        <!-- Chat Link / Button (Direct Page Link with Icon) -->
+                        <a href="{% url 'chat_home' %}" class="btn btn-sm btn-outline-light fw-semibold text-decoration-none">
                             <i class="fas fa-comments"></i> Chat
                         </a>
 
-                        <!-- My Account Dropdown -->
-                        <div class="dropdown">
-                            <button class="btn btn-light dropdown-toggle text-dark fw-bold" type="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user"></i> My Account
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow">
-                                <li><a class="dropdown-item" href="#">My Ads</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Phone Number</a></li>
-                                <li><a class="dropdown-item" href="#">My Home Address</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
-                            </ul>
-                        </div>
+                        <!-- My Account Link / Button (Direct Page Link with Icon) -->
+                        <a href="{% url 'my_ads' %}" class="btn btn-sm btn-light fw-bold text-dark text-decoration-none">
+                            <i class="fas fa-user"></i> My Account
+                        </a>
+
+                        <!-- Logout Button -->
+                        <a href="{% url 'logout' %}" class="btn btn-sm btn-danger fw-semibold">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
                     {% else %}
                         <a href="{% url 'login' %}" class="text-white text-decoration-none fw-semibold">Sign In</a>
                         <a href="{% url 'register' %}" class="text-white text-decoration-none fw-semibold">Register</a>
                     {% endif %}
 
                     <!-- Post Your Ad Button -->
-                    <a href="#" class="btn btn-warning fw-bold text-dark px-3">+ Post Your Ad</a>
+                    <a href="{% url 'add_product' %}" class="btn btn-warning fw-bold text-dark px-3">+ Post Your Ad</a>
                 </div>
             </div>
         </nav>
