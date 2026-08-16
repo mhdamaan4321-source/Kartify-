@@ -18,10 +18,68 @@
         .navbar-brand-custom { font-size: 22px; font-weight: bold; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .nav-links-custom { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         
-        /* Welcome Banner */
-        .welcome-banner { background: linear-gradient(135deg, #002f34, #005a63); color: white; padding: 30px 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .welcome-banner h1 { margin: 0; font-size: 26px; color: #ffce00; }
-        .welcome-banner p { margin: 8px 0 0 0; font-size: 16px; opacity: 0.9; }
+        /* Stunning 3D Welcome Banner */
+        .welcome-banner { 
+            background: linear-gradient(135deg, #002f34 0%, #005a63 50%, #00aa6c 100%); 
+            color: white; 
+            padding: 35px 20px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            box-shadow: 0 10px 25px rgba(0, 47, 52, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2); 
+            border-bottom: 4px solid #ffce00;
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1000px);
+        }
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+        .welcome-banner h1 { 
+            margin: 0; 
+            font-size: 28px; 
+            color: #ffce00; 
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 0.5px;
+        }
+        .welcome-banner .sub-title {
+            margin: 8px 0;
+            font-size: 16px;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+        .banner-badge {
+            display: inline-block;
+            background: #ffce00;
+            color: #002f34;
+            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 10px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .banner-footer {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #e0f2f1;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 10px;
+        }
+        .banner-footer span {
+            color: #ffce00;
+            font-weight: 600;
+        }
 
         /* Search Section - Mobile First */
         .search-container { background: #ebeeef; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
@@ -48,9 +106,10 @@
             .custom-navbar { padding: 15px 30px; }
             .navbar-brand-custom { font-size: 26px; }
             
-            .welcome-banner { padding: 40px 20px; }
-            .welcome-banner h1 { font-size: 34px; }
-            .welcome-banner p { font-size: 18px; }
+            .welcome-banner { padding: 45px 20px; }
+            .welcome-banner h1 { font-size: 36px; }
+            .welcome-banner .sub-title { font-size: 18px; }
+            .banner-badge { font-size: 15px; padding: 8px 20px; }
 
             .search-container { flex-direction: row; justify-content: center; padding: 20px; gap: 12px; }
             .search-container input, .search-container select { width: 230px; }
@@ -114,10 +173,18 @@
     </div>
 </header>
 
-<!-- Welcome Banner Section -->
+<!-- 3D Welcome Banner Section -->
 <div class="welcome-banner">
     <h1>Welcome to Kartify!</h1>
-    <p>Find and post your ads easily. Welcome by : Admin <b>Mohamed Amaan</b></p>
+    <p class="sub-title">Find and post your ads easily. Managed by Admin <b>Mohamed Amaan</b></p>
+    
+    <div class="banner-badge">
+        <i class="fas fa-gift"></i> Special Offer: First 3 Months Free!
+    </div>
+    
+    <div class="banner-footer">
+        For more promotions and premium services, contact admin. <span>Admin details are available at your account settings panel.</span>
+    </div>
 </div>
 
 <!-- Search & Filter Section -->
