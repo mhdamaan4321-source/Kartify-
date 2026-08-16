@@ -5,8 +5,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import JsonResponse
-from .models import Product, City, Category, Subcategory, ProductImage, ChatMessage
-
+from .models import Product, City, Category, SubCategory, ProductImage, ChatMessage  # <-- Inga SubCategory nu irukanum
 # Chat Home View
 @login_required
 def chat_home_view(request):
@@ -38,7 +37,7 @@ def custom_logout(request):
 # AJAX view to load subcategories dynamically based on selected category
 def load_subcategories(request):
     category_id = request.GET.get('category_id')
-    subcategories = Subcategory.objects.filter(category_id=category_id).values('id', 'name')
+    subcategories = SubCategory.objects.filter(category_id=category_id).values('id', 'name')
     return JsonResponse(list(subcategories), safe=False)
 
 # Home Page View (Search + Category Filter + City Filter)
