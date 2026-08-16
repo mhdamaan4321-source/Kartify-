@@ -61,10 +61,9 @@
                     </div>
 
                     {% if user.is_authenticated %}
-                        <!-- Chat Link -->
-                        <a href="#" class="btn btn-sm btn-outline-light fw-semibold text-decoration-none">
-                            <i class="fas fa-comments"></i> Chat
-                        </a>
+                      <a href="{% url 'chat_home' %}" class="btn btn-sm btn-outline-light fw-semibold text-decoration-none">
+    <i class="fas fa-comments"></i> Chat
+</a>
 
                         <!-- My Account Link -->
                         <a href="{% url 'my_ads' %}" class="btn btn-sm btn-light fw-bold text-dark text-decoration-none">

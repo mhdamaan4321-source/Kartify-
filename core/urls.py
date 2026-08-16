@@ -20,6 +20,10 @@ urlpatterns = [
     path('logout/', custom_logout, name='logout'),
     
     path('register/', views.register_view, name='register'),
+
+
+    path('chat/', views.chat_home_view, name='chat_home'),
+path('chat/<str:username>/', views.chat_room_view, name='chat_room'),
 ]
 
 # Media Files support for development (DEBUG mode)

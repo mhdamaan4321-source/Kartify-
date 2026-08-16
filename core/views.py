@@ -2,7 +2,32 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
-from .models import Product, City, Category, ProductImage
+from django.contrib.auth.models import User
+from django.db.models import Q
+from .models import Product, City, Category, ProductImage, ChatMessage
+
+# Chat Home View
+@login_required
+def chat_home_view(request):
+    chats = ChatMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).distinct().order_by('-timestamp')
+    return render(request, 'core/chat_home.html', {'chats': chats})
+
+# Chat Room View
+@login_required
+def chat_room_view(request, username):
+    receiver = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        message_text = request.POST.get('message')
+        if message_text:
+            ChatMessage.objects.create(sender=request.user, receiver=receiver, message=message_text)
+            return redirect('chat_room', username=username)
+            
+    messages_list = ChatMessage.objects.filter(
+        (Q(sender=request.user) & Q(receiver=receiver)) | 
+        (Q(sender=receiver) & Q(receiver=request.user))
+    ).order_by('timestamp')
+    
+    return render(request, 'core/chat_room.html', {'receiver': receiver, 'messages_list': messages_list})          
 
 # Custom Logout View (Fixes HTTP 405 error completely)
 def custom_logout(request):
