@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Kartify - Home</title>
-    <!-- Bootstrap CSS CDN (For Dropdowns & Icons) -->
+    <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -12,7 +12,10 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #f0f2f5; color: #333; }
         
         /* Header Styling */
-        header { background: #00aa6c; color: white; }
+        header { background: #00aa6c; color: white; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .custom-navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 25px; flex-wrap: wrap; gap: 15px; }
+        .navbar-brand-custom { font-size: 24px; font-weight: bold; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-links-custom { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         
         /* Welcome Banner Styling */
         .welcome-banner { background: linear-gradient(135deg, #002f34, #005a63); color: white; padding: 40px 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -21,12 +24,13 @@
 
         /* Search Section */
         .search-container { background: #ebeeef; padding: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .search-container input, .search-container select { padding: 10px; font-size: 15px; border: 1px solid #ccc; border-radius: 4px; width: 220px; }
+        .search-container input, .search-container select { padding: 10px; font-size: 15px; border: 1px solid #ccc; border-radius: 4px; width: 220px; background: white; }
         .search-btn { background: #20ab89; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        .search-btn:hover { background: #198d71; }
 
         /* Products Grid */
         .container-box { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        h2 { color: #002f34; }
+        h2 { color: #002f34; margin-bottom: 20px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
         .product-card { background: white; border-radius: 6px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-decoration: none; color: inherit; display: block; border: 1px solid #eaeaea; transition: 0.2s; }
         .product-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -40,124 +44,107 @@
     </style>
 </head>
 <body>
+
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c; padding: 12px 30px; width: 100%;">
-        <div class="container-fluid">
-            <!-- Logo / Brand (Added support for Image Logo if available) -->
-            <a class="navbar-brand fw-bold fs-4 d-flex align-items-center gap-2" href="{% url 'home' %}">
-                <!-- If you have a logo image, place it in static/images/logo.png and uncomment below -->
-                <!-- <img src="{% static 'images/logo.png' %}" alt="Kartify Logo" height="30"> -->
-                <span>Kartify</span>
-            </a>
+    <div class="custom-navbar">
+        <!-- Logo / Brand -->
+        <a class="navbar-brand-custom" href="{% url 'home' %}">
+            <i class="fas fa-store"></i> Kartify
+        </a>
 
-            <!-- Toggle Button for Mobile view -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Navigation Items -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="ms-auto d-flex align-items-center gap-3 flex-wrap">
-                    <!-- Language Switcher -->
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-globe"></i> Language
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" onclick="changeLanguage('English')">English</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="changeLanguage('Sinhala')">සිංහල</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="changeLanguage('Tamil')">தமிழ்</a></li>
-                        </ul>
-                    </div>
-
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'chat_home' %}" class="btn btn-sm btn-outline-light fw-semibold text-decoration-none">
-                            <i class="fas fa-comments"></i> Chat
-                        </a>
-
-                        <!-- My Account Link -->
-                        <a href="{% url 'my_ads' %}" class="btn btn-sm btn-light fw-bold text-dark text-decoration-none">
-                            <i class="fas fa-user"></i> My Account
-                        </a>
-
-                        <!-- Logout Form -->
-                        <form action="{% url 'logout' %}" method="post" style="display: inline; margin: 0;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-danger fw-semibold">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </form>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="text-white text-decoration-none fw-semibold">Sign In</a>
-                        <a href="{% url 'register' %}" class="text-white text-decoration-none fw-semibold">Register</a>
-                    {% endif %}
-
-                    <!-- Post Your Ad Button -->
-                    <a href="{% url 'add_product' %}" class="btn btn-warning fw-bold text-dark px-3">+ Post Your Ad</a>
-                </div>
+        <!-- Navigation Links & Language Switcher -->
+        <div class="nav-links-custom">
+            <!-- Language Switcher Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-globe"></i> Language
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="alert('Language changed to English')">English</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="alert('Language changed to Sinhala')">සිංහල</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="alert('Language changed to Tamil')">தமிழ்</a></li>
+                </ul>
             </div>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'chat_home' %}" class="btn btn-sm btn-outline-light fw-semibold text-decoration-none">
+                    <i class="fas fa-comments"></i> Chat
+                </a>
+
+                <a href="{% url 'my_ads' %}" class="btn btn-sm btn-light fw-bold text-dark text-decoration-none">
+                    <i class="fas fa-user"></i> My Account
+                </a>
+
+                <form action="{% url 'logout' %}" method="post" style="display: inline; margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger fw-semibold">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-white text-decoration-none fw-semibold px-2">Sign In</a>
+                <a href="{% url 'register' %}" class="text-white text-decoration-none fw-semibold px-2">Register</a>
+            {% endif %}
+
+            <a href="{% url 'add_product' %}" class="btn btn-warning fw-bold text-dark px-3">+ Post Your Ad</a>
         </div>
-    </nav>
+    </div>
 </header>
 
-    <!-- Welcome Banner Section -->
-    <div class="welcome-banner">
-        <h1>Welcome to Kartify!</h1>
-        <p>Find and post your ads easily. Welcome by : Admin <b>Mohamed Amaan</b></p>
-    </div>
+<!-- Welcome Banner Section -->
+<div class="welcome-banner">
+    <h1>Welcome to Kartify!</h1>
+    <p>Find and post your ads easily. Welcome by : Admin <b>Mohamed Amaan</b></p>
+</div>
 
-    <!-- Search & Filter Section -->
-    <form method="GET" action="{% url 'home' %}" class="search-container">
-        <input type="text" name="q" placeholder="What are you looking for?" value="{{ search_query }}">
-        <select name="city">
-            <option value="">All Sri Lanka (Locations)</option>
-            {% for city in cities %}
-                <option value="{{ city.id }}" {% if selected_city == city.id|stringformat:"s" %}selected{% endif %}>{{ city.name }}</option>
-            {% endfor %}
-        </select>
-        <select name="category">
-            <option value="">All Categories</option>
-            {% for cat in categories %}
-                <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit" class="search-btn">Search</button>
-    </form>
-
-    <!-- Product Listings -->
-    <div class="container-box">
-        <h2>Explore Products & Ads</h2>
-        <div class="product-grid">
-            {% for product in products %}
-                <a href="{% url 'product_detail' product.id %}" class="product-card">
-                    <!-- Product Image Display -->
-                    <div class="product-card-img">
-                        {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                        {% elif product.images.first %}
-                            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
-                        {% else %}
-                            <span style="color: #aaa; font-size: 13px;">No Image</span>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="product-title">{{ product.title }}</div>
-                    <div class="product-price">Rs. {{ product.price }}</div>
-                    <div class="product-location"><i class="fas fa-map-marker-alt"></i> {{ product.city.name|default:"Sri Lanka" }}</div>
-                </a>
-            {% empty %}
-                <p style="grid-column: 1/-1; text-align: center; color: #777; padding: 40px;">No products found.</p>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- Bootstrap JS Bundle CDN (Required for Dropdowns to open) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Search & Filter Section -->
+<form method="GET" action="{% url 'home' %}" class="search-container">
+    <input type="text" name="q" placeholder="What are you looking for?" value="{{ request.GET.q }}">
     
-    <script>
-        function changeLanguage(lang) {
-            alert("Language changed to " + lang + ". (Translation integration can be connected here)");
-        }
-    </script>
+    <select name="city">
+        <option value="">All Sri Lanka (Locations)</option>
+        {% for city in cities %}
+            <option value="{{ city.id }}" {% if request.GET.city == city.id|stringformat:"s" %}selected{% endif %}>{{ city.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <select name="category">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+            <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <button type="submit" class="search-btn"><i class="fas fa-search"></i> Search</button>
+</form>
+
+<!-- Product Listings -->
+<div class="container-box">
+    <h2>Explore Products & Ads</h2>
+    <div class="product-grid">
+        {% for product in products %}
+            <a href="{% url 'product_detail' product.id %}" class="product-card">
+                <div class="product-card-img">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                    {% elif product.images.first %}
+                        <img src="{{ product.images.first.image.url }}" alt="{{ product.title }}">
+                    {% else %}
+                        <span style="color: #aaa; font-size: 13px;">No Image</span>
+                    {% endif %}
+                </div>
+                
+                <div class="product-title">{{ product.title }}</div>
+                <div class="product-price">Rs. {{ product.price }}</div>
+                <div class="product-location"><i class="fas fa-map-marker-alt"></i> {{ product.city.name|default:"Sri Lanka" }}</div>
+            </a>
+        {% empty %}
+            <p style="grid-column: 1/-1; text-align: center; color: #777; padding: 40px;">No products found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
