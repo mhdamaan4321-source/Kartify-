@@ -113,7 +113,7 @@ def add_product_view(request):
             phone_number=request.POST.get('phone_number'),
             city_id=request.POST.get('city'),
             category_id=request.POST.get('category'),
-            subcategory_id=request.POST.get('subcategory')
+            subcategory_id=request.POST.get('subcategory') if request.POST.get('subcategory') else None
         )
         
         # Save multiple images
@@ -147,10 +147,11 @@ def edit_product_view(request, product_id):
         if category_id:
             product.category_id = category_id
         if subcategory_id:
-            product.subcategory_id = subcategory_id
+            product.subcategory_id = subcategory_id if subcategory_id else None
             
         product.save()
         
+        # Add new multiple images if uploaded
         images = request.FILES.getlist('images')
         for img in images:
             ProductImage.objects.create(product=product, image=img)
@@ -170,10 +171,6 @@ def delete_product_view(request, product_id):
     return redirect('my_ads')
 
 # Settings View (Auto-fills and saves user and profile details)
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import UserProfile # (Ungaloda Profile model name ennavo athu)
-
 @login_required
 def settings_view(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
@@ -188,7 +185,6 @@ def settings_view(request):
         profile.whatsapp_number = request.POST.get('whatsapp_number', '')
         profile.home_address = request.POST.get('home_address', '')
         
-        # Inga thaan theme preference-ah capture panni save panrom:
         theme = request.POST.get('theme_preference')
         if theme:
             profile.theme_preference = theme
