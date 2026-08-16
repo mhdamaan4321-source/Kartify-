@@ -1,7 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import logout
 from .models import Product, City, Category, ProductImage
+
+# Custom Logout View (Fixes HTTP 405 error completely)
+def custom_logout(request):
+    logout(request)
+    return redirect('home')
 
 # Home Page View (Search + Category Filter + City Filter)
 def home_view(request):
@@ -9,7 +15,7 @@ def home_view(request):
     cities = City.objects.all()
     categories = Category.objects.all()
     
-    # Search Filter (Handles both 'title' or 'name' dynamically based on model)
+    # Search Filter
     query = request.GET.get('q')
     if query:
         products = products.filter(title__icontains=query)
@@ -62,7 +68,7 @@ def add_product_view(request):
     if request.method == 'POST':
         product = Product.objects.create(
             user=request.user,
-            title=request.POST.get('name'), # Model uses 'title' for the product name
+            title=request.POST.get('name'),
             price=request.POST.get('price'),
             description=request.POST.get('description'),
             phone_number=request.POST.get('phone_number'),
@@ -92,7 +98,6 @@ def edit_product_view(request, product_id):
         product.description = request.POST.get('description')
         product.phone_number = request.POST.get('phone_number')
         
-        # Optional: update city and category if present in form
         city_id = request.POST.get('city')
         category_id = request.POST.get('category')
         if city_id:
@@ -102,7 +107,6 @@ def edit_product_view(request, product_id):
             
         product.save()
         
-        # Add new images if uploaded during edit
         images = request.FILES.getlist('images')
         for img in images:
             ProductImage.objects.create(product=product, image=img)
