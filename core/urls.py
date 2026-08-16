@@ -7,7 +7,7 @@ from core.views import custom_logout
 
 urlpatterns = [
     path('', views.home_view, name='home'),
-    path('product/<int:product_id>/', views.product_detail_view, name='product_detail'),
+   path('product/<int:pk>/', views.product_detail, name='product_detail'), # Ithu 'product_detail' nu irukanum!
     path('add-product/', views.add_product_view, name='add_product'),
     path('my-ads/', views.my_ads_view, name='my_ads'),
     
