@@ -43,7 +43,7 @@ class ProductImage(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    whatsapp_number = models.CharField(max_length=20, blank=True, null=True)
     home_address = models.TextField(blank=True, null=True)
     theme_preference = models.CharField(max_length=10, default='light')  # 'light' or 'dark'
 

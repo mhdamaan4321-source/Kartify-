@@ -1,20 +1,30 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Kartify</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
-        .container { max-width: 400px; margin: 60px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        h2 { color: #002f34; margin-top: 0; text-align: center; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
-        input[type="text"], input[type="password"] {
-            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;
+        .container { max-width: 420px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-top: 4px solid #20ab89; }
+        h2 { color: #002f34; margin-top: 0; text-align: center; margin-bottom: 20px; font-size: 24px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; color: #333; font-size: 13px; }
+        
+        /* Form controls styling from form definition */
+        .form-control, input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;
         }
-        .submit-btn { background: #20ab89; color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+        .form-control:focus { border-color: #20ab89; outline: none; box-shadow: 0 0 5px rgba(32, 171, 137, 0.3); }
+        
+        .errorlist { color: #d9534f; font-size: 12px; list-style: none; padding: 0; margin: 4px 0 0 0; }
+        .helptext { font-size: 11px; color: #666; display: block; margin-top: 4px; }
+
+        .submit-btn { background: #20ab89; color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.2s; }
         .submit-btn:hover { background: #198d71; }
-        .back-link { display: block; text-align: center; margin-top: 15px; color: #002f34; text-decoration: none; font-size: 14px; }
+        
+        .back-link { display: block; text-align: center; margin-top: 15px; color: #002f34; text-decoration: none; font-size: 14px; font-weight: 600; }
         .back-link:hover { text-decoration: underline; }
     </style>
 </head>
@@ -23,7 +33,51 @@
         <h2>Create an Account</h2>
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+            
+            {% if form.non_field_errors %}
+                <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; font-size: 13px; margin-bottom: 15px;">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <!-- Render each field cleanly with labels -->
+            <div class="form-group">
+                <label>Name:</label>
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Email:</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>WhatsApp Number:</label>
+                {{ form.whatsapp_number }}
+                {{ form.whatsapp_number.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Username:</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+                <small class="helptext">If username already exists, system will auto-generate a unique one.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Create Password:</label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password:</label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+
             <button type="submit" class="submit-btn">Register</button>
         </form>
         <a href="{% url 'login' %}" class="back-link">Already have an account? Login</a>

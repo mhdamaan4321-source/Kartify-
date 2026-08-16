@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import JsonResponse
 from .models import Product, City, Category, SubCategory, ProductImage, ChatMessage, UserProfile
+from .forms import CustomUserCreationForm  # Make sure you import your custom form from forms.py
+
 # Chat Home View
 @login_required
 def chat_home_view(request):
@@ -74,7 +75,6 @@ def home_view(request):
 # Product Detail View (Updated with Similar Ads)
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    # Ore category-la irukkira ana oru 4 similar products-ah edukka:
     similar_products = Product.objects.filter(category=product.category).exclude(pk=product.pk)[:4]
     
     context = {
@@ -83,15 +83,16 @@ def product_detail(request, pk):
     }
     return render(request, 'core/product_detail.html', context)
 
-# User Registration View
+# User Registration View (Updated to use CustomForm with WhatsApp & Auto-fill Settings link)
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
+            user = form.save()
+            login(request, user)  # Auto login after successful registration
+            return redirect('home')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'core/register.html', {'form': form})
 
 # My Ads View (Shows logged-in user's products)
@@ -168,18 +169,19 @@ def delete_product_view(request, product_id):
     product.delete()
     return redirect('my_ads')
 
+# Settings View (Auto-fills and saves user and profile details)
 @login_required
 def settings_view(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
     
     if request.method == 'POST':
         # Update User details
-        request.user.email = request.POST.get('email', request.user.email)
         request.user.first_name = request.POST.get('first_name', request.user.first_name)
+        request.user.email = request.POST.get('email', request.user.email)
         request.user.save()
 
         # Update UserProfile details
-        profile.phone_number = request.POST.get('phone_number', profile.phone_number)
+        profile.whatsapp_number = request.POST.get('whatsapp_number', profile.whatsapp_number)
         profile.home_address = request.POST.get('home_address', profile.home_address)
         profile.theme_preference = request.POST.get('theme_preference', 'light')
         profile.save()
