@@ -1,27 +1,38 @@
 {% extends 'core/base.html' %}
+
 {% block content %}
-<div class="container mt-4">
-    <h2>Your Chats</h2>
+<div class="container mt-4 mb-5" style="max-width: 600px;">
+    <h2 class="mb-3" style="color: #002f34;"><i class="fas fa-comments"></i> Your Chats</h2>
     <hr>
+    
     {% if chats %}
-        <div class="list-group">
+        <div class="list-group shadow-sm">
             {% for chat in chats %}
                 <!-- Show the other user in the chat -->
                 {% if chat.sender == request.user %}
-                    <a href="{% url 'chat_room' chat.receiver.username %}" class="list-group-item list-group-item-action">
-                        <strong>Chat with: {{ chat.receiver.username }}</strong>
-                        <p class="mb-1 text-muted">{{ chat.message }}</p>
+                    <a href="{% url 'chat_room' chat.receiver.username %}" class="list-group-item list-group-item-action p-3 border-start border-4 border-success">
+                        <div class="d-flex w-100 justify-content-between">
+                            <strong class="text-dark"><i class="fas fa-user-circle"></i> {{ chat.receiver.username }}</strong>
+                            <small class="text-muted" style="font-size: 11px;">{{ chat.timestamp|date:"M d, H:i" }}</small>
+                        </div>
+                        <p class="mb-1 text-muted text-truncate mt-1" style="max-width: 100%;">{{ chat.message }}</p>
                     </a>
                 {% else %}
-                    <a href="{% url 'chat_room' chat.sender.username %}" class="list-group-item list-group-item-action">
-                        <strong>Chat with: {{ chat.sender.username }}</strong>
-                        <p class="mb-1 text-muted">{{ chat.message }}</p>
+                    <a href="{% url 'chat_room' chat.sender.username %}" class="list-group-item list-group-item-action p-3 border-start border-4 border-success">
+                        <div class="d-flex w-100 justify-content-between">
+                            <strong class="text-dark"><i class="fas fa-user-circle"></i> {{ chat.sender.username }}</strong>
+                            <small class="text-muted" style="font-size: 11px;">{{ chat.timestamp|date:"M d, H:i" }}</small>
+                        </div>
+                        <p class="mb-1 text-muted text-truncate mt-1" style="max-width: 100%;">{{ chat.message }}</p>
                     </a>
                 {% endif %}
             {% endfor %}
         </div>
     {% else %}
-        <p class="text-muted">No chats available yet. Start a conversation from a product page!</p>
+        <div class="text-center py-5 bg-white rounded shadow-sm p-4">
+            <i class="fas fa-comment-slash fa-3x text-muted mb-3"></i>
+            <p class="text-muted mb-0">No chats available yet. Start a conversation from a product page!</p>
+        </div>
     {% endif %}
 </div>
 {% endblock %}
