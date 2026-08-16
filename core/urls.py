@@ -26,6 +26,8 @@ urlpatterns = [
 
     path('chat/', views.chat_home_view, name='chat_home'),
     path('chat/<str:username>/', views.chat_room_view, name='chat_room'),
+
+    path('settings/', views.settings_view, name='settings'),
 ]
 
 # Media Files support for development (DEBUG mode)

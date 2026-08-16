@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import JsonResponse
-from .models import Product, City, Category, SubCategory, ProductImage, ChatMessage  # <-- Inga SubCategory nu irukanum
+from .models import Product, City, Category, SubCategory, ProductImage, ChatMessage, UserProfile
 # Chat Home View
 @login_required
 def chat_home_view(request):
@@ -158,7 +158,7 @@ def edit_product_view(request, product_id):
         
     cities = City.objects.all()
     categories = Category.objects.all()
-    subcategories = Subcategory.objects.filter(category=product.category) if product.category else []
+    subcategories = SubCategory.objects.filter(category=product.category) if product.category else []
     return render(request, 'core/edit_product.html', {'product': product, 'cities': cities, 'categories': categories, 'subcategories': subcategories})
 
 # Delete Product View
@@ -167,3 +167,26 @@ def delete_product_view(request, product_id):
     product = get_object_or_404(Product, id=product_id, user=request.user)
     product.delete()
     return redirect('my_ads')
+
+@login_required
+def settings_view(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        # Update User details
+        request.user.email = request.POST.get('email', request.user.email)
+        request.user.first_name = request.POST.get('first_name', request.user.first_name)
+        request.user.save()
+
+        # Update UserProfile details
+        profile.phone_number = request.POST.get('phone_number', profile.phone_number)
+        profile.home_address = request.POST.get('home_address', profile.home_address)
+        profile.theme_preference = request.POST.get('theme_preference', 'light')
+        profile.save()
+
+        return redirect('settings')
+
+    context = {
+        'profile': profile,
+    }
+    return render(request, 'core/settings.html', context)
