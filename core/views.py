@@ -4,7 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.db.models import Q
-from .models import Product, City, Category, ProductImage, ChatMessage
+from django.http import JsonResponse
+from .models import Product, City, Category, Subcategory, ProductImage, ChatMessage
 
 # Chat Home View
 @login_required
@@ -33,6 +34,12 @@ def chat_room_view(request, username):
 def custom_logout(request):
     logout(request)
     return redirect('home')
+
+# AJAX view to load subcategories dynamically based on selected category
+def load_subcategories(request):
+    category_id = request.GET.get('category_id')
+    subcategories = Subcategory.objects.filter(category_id=category_id).values('id', 'name')
+    return JsonResponse(list(subcategories), safe=False)
 
 # Home Page View (Search + Category Filter + City Filter)
 def home_view(request):
@@ -94,7 +101,7 @@ def my_ads_view(request):
     products = Product.objects.filter(user=request.user).order_by('-id')
     return render(request, 'core/my_ads.html', {'products': products})
 
-# Add Product View (With Multiple Images Support)
+# Add Product View (With Multiple Images & Subcategory Support)
 @login_required
 def add_product_view(request):
     if request.method == 'POST':
@@ -105,7 +112,8 @@ def add_product_view(request):
             description=request.POST.get('description'),
             phone_number=request.POST.get('phone_number'),
             city_id=request.POST.get('city'),
-            category_id=request.POST.get('category')
+            category_id=request.POST.get('category'),
+            subcategory_id=request.POST.get('subcategory')
         )
         
         # Save multiple images
@@ -132,10 +140,14 @@ def edit_product_view(request, product_id):
         
         city_id = request.POST.get('city')
         category_id = request.POST.get('category')
+        subcategory_id = request.POST.get('subcategory')
+        
         if city_id:
             product.city_id = city_id
         if category_id:
             product.category_id = category_id
+        if subcategory_id:
+            product.subcategory_id = subcategory_id
             
         product.save()
         
@@ -147,7 +159,8 @@ def edit_product_view(request, product_id):
         
     cities = City.objects.all()
     categories = Category.objects.all()
-    return render(request, 'core/edit_product.html', {'product': product, 'cities': cities, 'categories': categories})
+    subcategories = Subcategory.objects.filter(category=product.category) if product.category else []
+    return render(request, 'core/edit_product.html', {'product': product, 'cities': cities, 'categories': categories, 'subcategories': subcategories})
 
 # Delete Product View
 @login_required
