@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Your Chats</h2>
+    <hr>
+    {% if chats %}
+        <div class="list-group">
+            {% for chat in chats %}
+                <!-- Show the other user in the chat -->
+                {% if chat.sender == request.user %}
+                    <a href="{% url 'chat_room' chat.receiver.username %}" class="list-group-item list-group-item-action">
+                        <strong>Chat with: {{ chat.receiver.username }}</strong>
+                        <p class="mb-1 text-muted">{{ chat.message }}</p>
+                    </a>
+                {% else %}
+                    <a href="{% url 'chat_room' chat.sender.username %}" class="list-group-item list-group-item-action">
+                        <strong>Chat with: {{ chat.sender.username }}</strong>
+                        <p class="mb-1 text-muted">{{ chat.message }}</p>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No chats available yet. Start a conversation from a product page!</p>
+    {% endif %}
+</div>
+{% endblock %}
