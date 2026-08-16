@@ -4,32 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Kartify - Home</title>
+    <!-- Bootstrap CSS CDN (For Dropdowns & Icons) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-
-
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #f0f2f5; color: #333; }
         
         /* Header Styling */
-        header { background: #002f34; color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-img {
-            max-height: 45px;
-            width: auto;
-            display: block;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 600; }
-        .nav-links .btn-post { background: #ffce00; color: #002f34; padding: 8px 15px; border-radius: 4px; }
+        header { background: #00aa6c; color: white; }
         
         /* Welcome Banner Styling */
         .welcome-banner { background: linear-gradient(135deg, #002f34, #005a63); color: white; padding: 40px 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -42,7 +25,7 @@
         .search-btn { background: #20ab89; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; }
 
         /* Products Grid */
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .container-box { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
         h2 { color: #002f34; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
         .product-card { background: white; border-radius: 6px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-decoration: none; color: inherit; display: block; border: 1px solid #eaeaea; transition: 0.2s; }
@@ -59,103 +42,55 @@
 <body>
 
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c;">
-    <div class="container">
-        <!-- Logo / Brand -->
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}">Kartify</a>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c; padding: 12px 30px;">
+            <div class="container-fluid">
+                <!-- Logo / Brand -->
+                <a class="navbar-brand fw-bold fs-4" href="{% url 'home' %}">Kartify</a>
 
-        <!-- Search or Navigation Items -->
-        <div class="ms-auto d-flex align-items-center gap-3">
-            <!-- Language Switcher (3 Languages) -->
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    Language
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">English</a></li>
-                    <li><a class="dropdown-item" href="#">සිංහල</a></li>
-                    <li><a class="dropdown-item" href="#">தமிழ்</a></li>
-                </ul>
-            </div>
+                <!-- Navigation Items -->
+                <div class="ms-auto d-flex align-items-center gap-3">
+                    <!-- Language Switcher (3 Languages) -->
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Language
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">සිංහල</a></li>
+                            <li><a class="dropdown-item" href="#">தமிழ்</a></li>
+                        </ul>
+                    </div>
 
-            {% if user.is_authenticated %}
-                <!-- Chat Icon -->
-                <a href="#" class="text-white text-decoration-none">
-                    <i class="fas fa-comments"></i> Chat
-                </a>
+                    {% if user.is_authenticated %}
+                        <!-- Chat Icon -->
+                        <a href="#" class="text-white text-decoration-none fw-semibold">
+                            <i class="fas fa-comments"></i> Chat
+                        </a>
 
-                <!-- My Account Dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user"></i> My Account
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">My Ads</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Phone Number</a></li>
-                        <li><a class="dropdown-item" href="#">My Home Address</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
-                    </ul>
+                        <!-- My Account Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle text-dark fw-bold" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i> My Account
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow">
+                                <li><a class="dropdown-item" href="#">My Ads</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Phone Number</a></li>
+                                <li><a class="dropdown-item" href="#">My Home Address</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-white text-decoration-none fw-semibold">Sign In</a>
+                        <a href="{% url 'register' %}" class="text-white text-decoration-none fw-semibold">Register</a>
+                    {% endif %}
+
+                    <!-- Post Your Ad Button -->
+                    <a href="#" class="btn btn-warning fw-bold text-dark px-3">+ Post Your Ad</a>
                 </div>
-            {% else %}
-                <a href="{% url 'login' %}" class="text-white text-decoration-none">Sign In</a>
-                <a href="{% url 'register' %}" class="text-white text-decoration-none">Register</a>
-            {% endif %}
-
-            <!-- Post Your Ad Button (Yellow Corner Button) -->
-            <a href="#" class="btn btn-warning fw-bold text-dark">POST YOUR AD</a>
-        </div>
-    </div>
-</nav><nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c;">
-    <div class="container">
-        <!-- Logo / Brand -->
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}">Kartify</a>
-
-        <!-- Search or Navigation Items -->
-        <div class="ms-auto d-flex align-items-center gap-3">
-            <!-- Language Switcher (3 Languages) -->
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    Language
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">English</a></li>
-                    <li><a class="dropdown-item" href="#">සිංහල</a></li>
-                    <li><a class="dropdown-item" href="#">தமிழ்</a></li>
-                </ul>
             </div>
-
-            {% if user.is_authenticated %}
-                <!-- Chat Icon -->
-                <a href="#" class="text-white text-decoration-none">
-                    <i class="fas fa-comments"></i> Chat
-                </a>
-
-                <!-- My Account Dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user"></i> My Account
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">My Ads</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Phone Number</a></li>
-                        <li><a class="dropdown-item" href="#">My Home Address</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
-                    </ul>
-                </div>
-            {% else %}
-                <a href="{% url 'login' %}" class="text-white text-decoration-none">Sign In</a>
-                <a href="{% url 'register' %}" class="text-white text-decoration-none">Register</a>
-            {% endif %}
-
-            <!-- Post Your Ad Button (Yellow Corner Button) -->
-            <a href="#" class="btn btn-warning fw-bold text-dark">POST YOUR AD</a>
-        </div>
-    </div>
-</nav>
+        </nav>
     </header>
 
     <!-- Welcome Banner Section -->
@@ -183,7 +118,7 @@
     </form>
 
     <!-- Product Listings -->
-    <div class="container">
+    <div class="container-box">
         <h2>Explore Products & Ads</h2>
         <div class="product-grid">
             {% for product in products %}
@@ -209,5 +144,7 @@
         </div>
     </div>
 
+    <!-- Bootstrap JS CDN (Required for Dropdowns to open) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
