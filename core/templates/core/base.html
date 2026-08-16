@@ -24,21 +24,15 @@
 </head>
 <body>
 
-    <!-- Header / Navbar (Hidden on Chat pages) -->
-    {% if request.resolver_match.url_name == 'chat_home' or request.resolver_match.url_name == 'chat_room' %}
-    <!-- Simple minimal back bar for Chat pages -->
-    <div style="background-color: #00aa6c; padding: 12px 20px;" class="text-white d-flex justify-content-between align-items-center">
-        <a href="{% url 'home' %}" class="text-white text-decoration-none fw-bold"><i class="fas fa-arrow-left"></i> Back to Home</a>
-        <span class="fw-bold fs-5">Kartify Messages</span>
-        <div></div>
-    </div>
-    {% else %}
+    <!-- Header / Navbar Control: Home page gets full navbar, others get minimal back bar -->
+    {% if request.resolver_match.url_name == 'home' %}
+    <!-- FULL NAVBAR FOR HOME PAGE ONLY -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c; padding: 12px 30px; width: 100%;">
             <div class="container-fluid">
-                <!-- Logo Brand with your exact filename -->
+                <!-- Logo Brand -->
                 <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                    <img src="{% load static %}{% static 'core/static/core/images/Gemini_Generated_Image_6a4cs56a4cs56a4c.jfif' %}" alt="Kartify Logo" style="height: 45px; border-radius: 6px;">
+                    <img src="{% static 'core/images/Gemini_Generated_Image_6a4cs56a4cs56a4c.jfif' %}" alt="Kartify Logo" style="height: 45px; border-radius: 6px;">
                 </a>
                 
                 <div class="ms-auto d-flex align-items-center gap-3">
@@ -79,6 +73,21 @@
             </div>
         </nav>
     </header>
+
+    {% elif request.resolver_match.url_name == 'chat_home' or request.resolver_match.url_name == 'chat_room' %}
+    <!-- CHAT PAGES HEADER -->
+    <div style="background-color: #00aa6c; padding: 12px 20px;" class="text-white d-flex justify-content-between align-items-center">
+        <a href="{% url 'home' %}" class="text-white text-decoration-none fw-bold"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <span class="fw-bold fs-5">Kartify Messages</span>
+        <div></div>
+    </div>
+
+    {% else %}
+    <!-- OTHER PAGES (Product Detail View, Add Product, etc.) - Minimal Back Bar Only -->
+    <div style="background-color: #00aa6c; padding: 12px 20px;" class="text-white d-flex align-items-center">
+        <a href="{% url 'home' %}" class="text-white text-decoration-none fw-bold"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <span class="ms-3 fw-bold fs-5">Kartify</span>
+    </div>
     {% endif %}
 
     <!-- Main Content Block -->
@@ -90,7 +99,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-   <!-- Google Translate Script & Fix -->
+    <!-- Google Translate Script & Fix -->
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
