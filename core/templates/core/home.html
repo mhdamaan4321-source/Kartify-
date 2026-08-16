@@ -59,22 +59,103 @@
 <body>
 
     <header>
-        <div class="logo-container">
-            <a href="{% url 'home' %}">
-               <img src="{% static 'images/logo.jpg' %}" alt="Logo" class="logo-img">
-            </a>
-        </div>
-        <div class="nav-links">
+      <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c;">
+    <div class="container">
+        <!-- Logo / Brand -->
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">Kartify</a>
+
+        <!-- Search or Navigation Items -->
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <!-- Language Switcher (3 Languages) -->
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Language
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">English</a></li>
+                    <li><a class="dropdown-item" href="#">සිංහල</a></li>
+                    <li><a class="dropdown-item" href="#">தமிழ்</a></li>
+                </ul>
+            </div>
+
             {% if user.is_authenticated %}
-                <span>Hello, <b>{{ user.username }}</b></span>
-                <a href="{% url 'my_ads' %}">My Ads</a>
-                <a href="{% url 'add_product' %}" class="btn-post">+ Post Your Ad</a>
-                <a href="{% url 'logout' %}">Logout</a>
+                <!-- Chat Icon -->
+                <a href="#" class="text-white text-decoration-none">
+                    <i class="fas fa-comments"></i> Chat
+                </a>
+
+                <!-- My Account Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i> My Account
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">My Ads</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Phone Number</a></li>
+                        <li><a class="dropdown-item" href="#">My Home Address</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </div>
             {% else %}
-                <a href="{% url 'login' %}">Sign In</a>
-                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login' %}" class="text-white text-decoration-none">Sign In</a>
+                <a href="{% url 'register' %}" class="text-white text-decoration-none">Register</a>
             {% endif %}
+
+            <!-- Post Your Ad Button (Yellow Corner Button) -->
+            <a href="#" class="btn btn-warning fw-bold text-dark">POST YOUR AD</a>
         </div>
+    </div>
+</nav><nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c;">
+    <div class="container">
+        <!-- Logo / Brand -->
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">Kartify</a>
+
+        <!-- Search or Navigation Items -->
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <!-- Language Switcher (3 Languages) -->
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Language
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">English</a></li>
+                    <li><a class="dropdown-item" href="#">සිංහල</a></li>
+                    <li><a class="dropdown-item" href="#">தமிழ்</a></li>
+                </ul>
+            </div>
+
+            {% if user.is_authenticated %}
+                <!-- Chat Icon -->
+                <a href="#" class="text-white text-decoration-none">
+                    <i class="fas fa-comments"></i> Chat
+                </a>
+
+                <!-- My Account Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i> My Account
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">My Ads</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Phone Number</a></li>
+                        <li><a class="dropdown-item" href="#">My Home Address</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-white text-decoration-none">Sign In</a>
+                <a href="{% url 'register' %}" class="text-white text-decoration-none">Register</a>
+            {% endif %}
+
+            <!-- Post Your Ad Button (Yellow Corner Button) -->
+            <a href="#" class="btn btn-warning fw-bold text-dark">POST YOUR AD</a>
+        </div>
+    </div>
+</nav>
     </header>
 
     <!-- Welcome Banner Section -->
