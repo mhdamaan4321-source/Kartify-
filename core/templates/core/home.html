@@ -7,34 +7,45 @@
     <title>Kartify - Online Marketplace</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; color: #333; }
-        header { background: #002f34; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        header a { color: #ffce00; text-decoration: none; font-weight: bold; font-size: 14px; margin-left: 10px; }
         
-        .hero { background: linear-gradient(135deg, #002f34, #006666); color: white; padding: 20px; text-align: center; }
-        .hero h1 { margin: 0 0 10px; font-size: 24px; }
+        /* Header styling matching screenshot */
+        header { background: #002f34; color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .logo { font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 5px; }
         
-        .search-container { max-width: 600px; margin: 15px auto; padding: 0 15px; }
-        .search-form { display: flex; flex-direction: column; gap: 8px; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-        .search-form input, .search-form select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .search-btn { background: #20ab89; color: white; border: none; padding: 10px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        .top-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        
+        .header-btn { background: #fff; color: #002f34; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 4px; border: none; cursor: pointer; }
+        .post-ad-btn { background: #ffce00; color: #002f34; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; text-decoration: none; }
+        .logout-btn { background: #ff4d4d; color: white; padding: 6px 10px; border-radius: 4px; font-size: 13px; text-decoration: none; }
+
+        /* Dropdown for Account (My Ads & Settings) */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content { display: none; position: absolute; right: 0; background-color: #fff; min-width: 130px; box-shadow: 0px 8px 16px rgba(0,0,0,0.2); z-index: 10; border-radius: 4px; overflow: hidden; }
+        .dropdown-content a { color: #002f34; padding: 10px 12px; text-decoration: none; display: block; font-size: 13px; font-weight: 600; text-align: left; border-bottom: 1px solid #eee; }
+        .dropdown-content a:hover { background-color: #f1f1f1; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* Hero Banner */
+        .hero { background: linear-gradient(135deg, #002f34, #006666); color: white; padding: 25px 15px; text-align: center; }
+        .hero h1 { margin: 0 0 8px; font-size: 22px; }
+        .hero p { margin: 0 0 12px; font-size: 13px; color: #e0e0e0; }
+        .offer-badge { background: #ffce00; color: #002f34; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-top: 5px; }
+
+        /* Search Section */
+        .search-container { max-width: 600px; margin: -15px auto 15px auto; padding: 0 15px; position: relative; z-index: 5; }
+        .search-form { display: flex; flex-direction: column; gap: 8px; background: white; padding: 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .search-form input, .search-form select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background: #fff; }
+        .search-btn { background: #20ab89; color: white; border: none; padding: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 15px; }
         .search-btn:hover { background: #198d71; }
 
-        .container { max-width: 1000px; margin: 15px auto; padding: 0 10px; }
-        h3 { color: #002f34; margin: 15px 10px; font-size: 18px; }
+        /* Product List - Single Column (Ikman style vertical feed) */
+        .container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
+        h3 { color: #002f34; margin: 15px 5px 10px; font-size: 17px; }
 
-        /* Ikman style product grid for mobile (Single column list view or compact cards) */
         .product-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            padding: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .product-grid {
-                grid-template-columns: 1fr; /* Ikman app maathiri oannu keezha oannu (Single column list) varum */
-            }
-            .search-form { flex-direction: column; }
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .product-card {
@@ -43,25 +54,25 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
             display: flex;
-            flex-direction: row; /* Ikman style horizontal card for mobile list view */
+            flex-direction: row; /* Horizontal layout: Image on left, details on right */
             text-decoration: none;
             color: inherit;
-            transition: 0.2s;
             border: 1px solid #e0e0e0;
+            transition: 0.2s;
         }
 
         .product-card:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
         }
 
         .product-card img {
-            width: 120px;
+            width: 130px;
             height: 110px;
             object-fit: cover;
         }
 
         .product-info {
-            padding: 10px;
+            padding: 10px 12px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -72,7 +83,7 @@
             font-size: 15px;
             font-weight: 600;
             color: #002f34;
-            margin: 0 0 5px;
+            margin: 0 0 4px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -83,44 +94,52 @@
             font-size: 16px;
             font-weight: bold;
             color: #20ab89;
-            margin: 0 0 5px;
+            margin: 0 0 4px;
         }
 
         .product-location {
             font-size: 12px;
             color: #777;
         }
-
-        .top-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .post-ad-btn { background: #ffce00; color: #002f34; padding: 6px 12px; border-radius: 4px; font-weight: bold; text-decoration: none; }
     </style>
 </head>
 <body>
 
+    <!-- Header matching screenshot -->
     <header>
-        <div style="font-weight: bold; font-size: 18px;">🛒 Kartify</div>
+        <div class="logo">🛒 Kartify</div>
         <div class="top-actions">
-            <a href="{% url 'add_product' %}" class="post-ad-btn">+ Post Ad</a>
+            <!-- Language Dropdown placeholder -->
+            <button class="header-btn">🌐 Language ▾</button>
+
             {% if request.user.is_authenticated %}
-                <a href="{% url 'my_ads' %}">My Ads</a>
-                <a href="{% url 'chat_home' %}">Chat</a>
-                <a href="{% url 'settings' %}">Account</a>
-                <a href="{% url 'logout' %}" style="color: #ff8080;">Logout</a>
+                <a href="{% url 'chat_home' %}" class="header-btn">💬 Chat</a>
+                
+                <!-- Account Dropdown containing My Ads & Settings -->
+                <div class="dropdown">
+                    <button class="header-btn">👤 Account ▾</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'my_ads' %}">📦 My Ads</a>
+                        <a href="{% url 'settings' %}">⚙️ Settings</a>
+                    </div>
+                </div>
+
+                <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
             {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login' %}" class="header-btn">Login</a>
+                <a href="{% url 'register' %}" class="header-btn">Register</a>
             {% endif %}
+
+            <a href="{% url 'add_product' %}" class="post-ad-btn">+ Post Ad</a>
         </div>
     </header>
 
+    <!-- Hero Section -->
     <div class="hero">
         <h1>Welcome to Kartify!</h1>
-        <p>Find and post your ads easily.</p>
+        <p>Find and post your ads easily. Managed by Admin Mohamed Amaan</p>
+        <div class="offer-badge">🎁 SPECIAL OFFER: FIRST 3 MONTHS FREE!</div>
+        <p style="font-size: 11px; margin-top: 10px; color: #d0d0d0;">For more promotions, contact admin via account settings.</p>
     </div>
 
     <!-- Search & Filters Section -->
@@ -142,17 +161,17 @@
                 {% endfor %}
             </select>
 
-            <button type="submit" class="search-btn">Search</button>
+            <button type="submit" class="search-btn">🔍 Search</button>
         </form>
     </div>
 
+    <!-- Products Feed (Single Column, Ikman Style) -->
     <div class="container">
         <h3>Explore Products & Ads</h3>
         
         <div class="product-grid">
             {% for product in products %}
                 <a href="{% url 'product_detail' product.id %}" class="product-card">
-                    <!-- Display first image if available -->
                     {% if product.images.all %}
                         <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
                     {% else %}
@@ -161,7 +180,6 @@
                     
                     <div class="product-info">
                         <div>
-                            <!-- Corrected from product.title to product.name -->
                             <h4 class="product-title">{{ product.name }}</h4>
                             <div class="product-price">Rs. {{ product.price }}</div>
                         </div>
@@ -169,7 +187,7 @@
                     </div>
                 </a>
             {% empty %}
-                <p style="padding: 20px; text-align: center; color: #777; grid-column: 1 / -1;">No products found matching your search.</p>
+                <p style="padding: 20px; text-align: center; color: #777;">No products found matching your search.</p>
             {% endfor %}
         </div>
     </div>
