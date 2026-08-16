@@ -4,237 +4,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kartify - Home</title>
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Kartify - Online Marketplace</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #f0f2f5; color: #333; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; color: #333; }
+        header { background: #002f34; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        header a { color: #ffce00; text-decoration: none; font-weight: bold; font-size: 14px; margin-left: 10px; }
         
-        /* Header & Navbar */
-        header { background: #00aa6c; color: white; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .custom-navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
-        .navbar-brand-custom { font-size: 22px; font-weight: bold; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
-        .nav-links-custom { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .hero { background: linear-gradient(135deg, #002f34, #006666); color: white; padding: 20px; text-align: center; }
+        .hero h1 { margin: 0 0 10px; font-size: 24px; }
         
-        /* Stunning 3D Welcome Banner */
-        .welcome-banner { 
-            background: linear-gradient(135deg, #002f34 0%, #005a63 50%, #00aa6c 100%); 
-            color: white; 
-            padding: 35px 20px; 
-            text-align: center; 
-            margin-bottom: 20px; 
-            box-shadow: 0 10px 25px rgba(0, 47, 52, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2); 
-            border-bottom: 4px solid #ffce00;
-            position: relative;
+        .search-container { max-width: 600px; margin: 15px auto; padding: 0 15px; }
+        .search-form { display: flex; flex-direction: column; gap: 8px; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .search-form input, .search-form select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .search-btn { background: #20ab89; color: white; border: none; padding: 10px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        .search-btn:hover { background: #198d71; }
+
+        .container { max-width: 1000px; margin: 15px auto; padding: 0 10px; }
+        h3 { color: #002f34; margin: 15px 10px; font-size: 18px; }
+
+        /* Ikman style product grid for mobile (Single column list view or compact cards) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr; /* Ikman app maathiri oannu keezha oannu (Single column list) varum */
+            }
+            .search-form { flex-direction: column; }
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
-            transform: perspective(1000px);
+            display: flex;
+            flex-direction: row; /* Ikman style horizontal card for mobile list view */
+            text-decoration: none;
+            color: inherit;
+            transition: 0.2s;
+            border: 1px solid #e0e0e0;
         }
-        .welcome-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            transform: rotate(30deg);
-            pointer-events: none;
+
+        .product-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
-        .welcome-banner h1 { 
-            margin: 0; 
-            font-size: 28px; 
-            color: #ffce00; 
-            font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: 0.5px;
+
+        .product-card img {
+            width: 120px;
+            height: 110px;
+            object-fit: cover;
         }
-        .welcome-banner .sub-title {
-            margin: 8px 0;
-            font-size: 16px;
-            font-weight: 500;
-            opacity: 0.95;
+
+        .product-info {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
         }
-        .banner-badge {
-            display: inline-block;
-            background: #ffce00;
-            color: #002f34;
-            font-weight: bold;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin: 10px 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .banner-footer {
-            margin-top: 10px;
-            font-size: 13px;
-            color: #e0f2f1;
-            border-top: 1px solid rgba(255,255,255,0.15);
-            padding-top: 10px;
-        }
-        .banner-footer span {
-            color: #ffce00;
+
+        .product-title {
+            font-size: 15px;
             font-weight: 600;
+            color: #002f34;
+            margin: 0 0 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        /* Search Section - Mobile First */
-        .search-container { background: #ebeeef; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .search-container input, .search-container select { padding: 10px; font-size: 15px; border: 1px solid #ccc; border-radius: 4px; width: 100%; background: white; }
-        .search-btn { background: #20ab89; color: white; border: none; padding: 10px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
-
-        /* Product Listings Grid - Mobile First (2 columns) */
-        .container-box { max-width: 1200px; margin: 30px auto; padding: 0 15px; }
-        h2 { color: #002f34; font-size: 24px; margin-bottom: 20px; }
-        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-
-        .product-card { background: white; border-radius: 6px; padding: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-decoration: none; color: inherit; display: block; border: 1px solid #eaeaea; transition: 0.2s; }
-        .product-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        
-        .product-card-img { width: 100%; height: 140px; background: #f2f2f2; border-radius: 4px; overflow: hidden; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; }
-        .product-card-img img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .product-title { font-size: 15px; font-weight: bold; color: #002f34; margin: 0 0 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .product-price { color: #20ab89; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
-        .product-location { font-size: 12px; color: #666; }
-
-        /* DESKTOP / COMPUTER VIEW (Screen width 768px and above) */
-        @media (min-width: 768px) {
-            .custom-navbar { padding: 15px 30px; }
-            .navbar-brand-custom { font-size: 26px; }
-            
-            .welcome-banner { padding: 45px 20px; }
-            .welcome-banner h1 { font-size: 36px; }
-            .welcome-banner .sub-title { font-size: 18px; }
-            .banner-badge { font-size: 15px; padding: 8px 20px; }
-
-            .search-container { flex-direction: row; justify-content: center; padding: 20px; gap: 12px; }
-            .search-container input, .search-container select { width: 230px; }
-            .search-btn { width: auto; padding: 10px 25px; }
-
-            .container-box { padding: 0 20px; }
-            .product-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-            .product-card { padding: 15px; }
-            .product-card-img { height: 160px; }
-            .product-title { font-size: 18px; white-space: normal; }
-            .product-price { font-size: 18px; }
-            .product-location { font-size: 13px; }
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #20ab89;
+            margin: 0 0 5px;
         }
+
+        .product-location {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .post-ad-btn { background: #ffce00; color: #002f34; padding: 6px 12px; border-radius: 4px; font-weight: bold; text-decoration: none; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="custom-navbar">
-        <!-- Logo / Brand -->
-        <a class="navbar-brand-custom" href="{% url 'home' %}">
-            <i class="fas fa-store"></i> Kartify
-        </a>
-
-        <!-- Navigation Links & Language Switcher -->
-        <div class="nav-links-custom">
-            <!-- Language Switcher Dropdown -->
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-globe"></i> Language
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#" onclick="alert('Language changed to English')">English</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="alert('Language changed to Sinhala')">සිංහල</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="alert('Language changed to Tamil')">தமிழ்</a></li>
-                </ul>
-            </div>
-
-            {% if user.is_authenticated %}
-                <a href="{% url 'chat_home' %}" class="btn btn-sm btn-outline-light fw-semibold text-decoration-none">
-                    <i class="fas fa-comments"></i> Chat
-                </a>
-
-                <a href="{% url 'my_ads' %}" class="btn btn-sm btn-light fw-bold text-dark text-decoration-none">
-                    <i class="fas fa-user"></i> Account
-                </a>
-
-                <form action="{% url 'logout' %}" method="post" style="display: inline; margin: 0;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-danger fw-semibold">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                </form>
+    <header>
+        <div style="font-weight: bold; font-size: 18px;">🛒 Kartify</div>
+        <div class="top-actions">
+            <a href="{% url 'add_product' %}" class="post-ad-btn">+ Post Ad</a>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'my_ads' %}">My Ads</a>
+                <a href="{% url 'chat_home' %}">Chat</a>
+                <a href="{% url 'settings' %}">Account</a>
+                <a href="{% url 'logout' %}" style="color: #ff8080;">Logout</a>
             {% else %}
-                <a href="{% url 'login' %}" class="text-white text-decoration-none fw-semibold px-2">Sign In</a>
-                <a href="{% url 'register' %}" class="text-white text-decoration-none fw-semibold px-2">Register</a>
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
             {% endif %}
-
-            <a href="{% url 'add_product' %}" class="btn btn-warning btn-sm fw-bold text-dark px-3">+ Post Ad</a>
         </div>
-    </div>
-</header>
+    </header>
 
-<!-- 3D Welcome Banner Section -->
-<div class="welcome-banner">
-    <h1>Welcome to Kartify!</h1>
-    <p class="sub-title">Find and post your ads easily. Managed by Admin <b>Mohamed Amaan</b></p>
-    
-    <div class="banner-badge">
-        <i class="fas fa-gift"></i> Special Offer: First 3 Months Free!
+    <div class="hero">
+        <h1>Welcome to Kartify!</h1>
+        <p>Find and post your ads easily.</p>
     </div>
-    
-    <div class="banner-footer">
-        For more promotions and premium services, contact admin. <span>Admin details are available at your account settings panel.</span>
+
+    <!-- Search & Filters Section -->
+    <div class="search-container">
+        <form method="GET" action="{% url 'home' %}" class="search-form">
+            <input type="text" name="q" placeholder="What are you looking for?" value="{{ search_query }}">
+            
+            <select name="city">
+                <option value="">All Sri Lanka (Locations)</option>
+                {% for city in cities %}
+                    <option value="{{ city.id }}" {% if selected_city == city.id|stringformat:"s" %}selected{% endif %}>{{ city.name }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="category">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="search-btn">Search</button>
+        </form>
     </div>
-</div>
 
-<!-- Search & Filter Section -->
-<form method="GET" action="{% url 'home' %}" class="search-container">
-    <input type="text" name="q" placeholder="What are you looking for?" value="{{ request.GET.q }}">
-    
-    <select name="city">
-        <option value="">All Sri Lanka (Locations)</option>
-        {% for city in cities %}
-            <option value="{{ city.id }}" {% if request.GET.city == city.id|stringformat:"s" %}selected{% endif %}>{{ city.name }}</option>
-        {% endfor %}
-    </select>
-    
-    <select name="category">
-        <option value="">All Categories</option>
-        {% for cat in categories %}
-            <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
-        {% endfor %}
-    </select>
-    
-    <button type="submit" class="search-btn"><i class="fas fa-search"></i> Search</button>
-</form>
-
-<!-- Product Listings -->
-<div class="container-box">
-    <h2>Explore Products & Ads</h2>
-    <div class="product-grid">
-        {% for product in products %}
-            <a href="{% url 'product_detail' product.id %}" class="product-card">
-                <div class="product-card-img">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                    {% elif product.images.first %}
+    <div class="container">
+        <h3>Explore Products & Ads</h3>
+        
+        <div class="product-grid">
+            {% for product in products %}
+                <a href="{% url 'product_detail' product.id %}" class="product-card">
+                    <!-- Display first image if available -->
+                    {% if product.images.all %}
                         <img src="{{ product.images.first.image.url }}" alt="{{ product.title }}">
                     {% else %}
-                        <span style="color: #aaa; font-size: 13px;">No Image</span>
+                        <img src="{% static 'images/no-image.png' %}" alt="No Image">
                     {% endif %}
-                </div>
-                
-                <div class="product-title">{{ product.title }}</div>
-                <div class="product-price">Rs. {{ product.price }}</div>
-                <div class="product-location"><i class="fas fa-map-marker-alt"></i> {{ product.city.name|default:"Sri Lanka" }}</div>
-            </a>
-        {% empty %}
-            <p style="grid-column: 1/-1; text-align: center; color: #777; padding: 40px;">No products found.</p>
-        {% endfor %}
+                    
+                    <div class="product-info">
+                        <div>
+                            <h4 class="product-title">{{ product.title }}</h4>
+                            <div class="product-price">Rs. {{ product.price }}</div>
+                        </div>
+                        <div class="product-location">📍 {{ product.city.name|default:"Sri Lanka" }}</div>
+                    </div>
+                </a>
+            {% empty %}
+                <p style="padding: 20px; text-align: center; color: #777; grid-column: 1 / -1;">No products found matching your search.</p>
+            {% endfor %}
+        </div>
     </div>
-</div>
 
-<!-- Bootstrap JS Bundle CDN -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
