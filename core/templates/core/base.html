@@ -36,7 +36,10 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c; padding: 12px 30px; width: 100%;">
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold fs-4" href="{% url 'home' %}">Kartify</a>
+                <!-- Logo Brand with your exact filename -->
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                    <img src="{% load static %}{% static 'core/images/Gemini_Generated_Image_6a4cs56a4cs56a4c.jpg' %}" alt="Kartify Logo" style="height: 45px; border-radius: 6px;">
+                </a>
                 
                 <div class="ms-auto d-flex align-items-center gap-3">
                     
