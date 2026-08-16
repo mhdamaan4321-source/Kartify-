@@ -41,7 +41,7 @@
 </head>
 <body>
 
-   <header>
+  <header>
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00aa6c; padding: 12px 30px; width: 100%;">
             <div class="container-fluid">
                 <!-- Logo / Brand -->
@@ -62,12 +62,12 @@
                     </div>
 
                     {% if user.is_authenticated %}
-                        <!-- Chat Link / Button (Direct Page Link with Icon) -->
-                        <a href="{% url 'chat_home' %}" class="btn btn-sm btn-outline-light fw-semibold text-decoration-none">
+                        <!-- Chat Link (Temporary # if page not created yet) -->
+                        <a href="#" class="btn btn-sm btn-outline-light fw-semibold text-decoration-none">
                             <i class="fas fa-comments"></i> Chat
                         </a>
 
-                        <!-- My Account Link / Button (Direct Page Link with Icon) -->
+                        <!-- My Account Link (My Ads page) -->
                         <a href="{% url 'my_ads' %}" class="btn btn-sm btn-light fw-bold text-dark text-decoration-none">
                             <i class="fas fa-user"></i> My Account
                         </a>
