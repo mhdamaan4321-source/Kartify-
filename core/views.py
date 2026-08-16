@@ -170,25 +170,31 @@ def delete_product_view(request, product_id):
     return redirect('my_ads')
 
 # Settings View (Auto-fills and saves user and profile details)
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile # (Ungaloda Profile model name ennavo athu)
+
 @login_required
 def settings_view(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
     
     if request.method == 'POST':
-        # Update User details
-        request.user.first_name = request.POST.get('first_name', request.user.first_name)
-        request.user.email = request.POST.get('email', request.user.email)
+        # User details update
+        request.user.first_name = request.POST.get('first_name', '')
+        request.user.email = request.POST.get('email', '')
         request.user.save()
-
-        # Update UserProfile details
-        profile.whatsapp_number = request.POST.get('whatsapp_number', profile.whatsapp_number)
-        profile.home_address = request.POST.get('home_address', profile.home_address)
-        profile.theme_preference = request.POST.get('theme_preference', 'light')
+        
+        # Profile details update (Including Theme Preference)
+        profile.whatsapp_number = request.POST.get('whatsapp_number', '')
+        profile.home_address = request.POST.get('home_address', '')
+        
+        # Inga thaan theme preference-ah capture panni save panrom:
+        theme = request.POST.get('theme_preference')
+        if theme:
+            profile.theme_preference = theme
+            
         profile.save()
-
         return redirect('settings')
-
-    context = {
-        'profile': profile,
-    }
+        
+    context = {'profile': profile}
     return render(request, 'core/settings.html', context)

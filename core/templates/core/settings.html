@@ -78,12 +78,12 @@
         <!-- Theme Preferences -->
         <h5 class="text-secondary mt-4 mb-3" style="font-size: 16px;">Appearance</h5>
         <div class="mb-4">
-            <label class="form-label fw-semibold">Theme Mode</label>
-            <select name="theme_preference" class="form-control">
-                <option value="light" {% if profile.theme_preference == 'light' %}selected{% endif %}>☀️ Light Mode</option>
-                <option value="dark" {% if profile.theme_preference == 'dark' %}selected{% endif %}>🌙 Dark Mode</option>
-            </select>
-        </div>
+    <label class="form-label fw-semibold">Theme Mode</label>
+    <select name="theme_preference" class="form-control">
+        <option value="light" {% if profile.theme_preference == 'light' %}selected{% endif %}>☀️ Light Mode</option>
+        <option value="dark" {% if profile.theme_preference == 'dark' %}selected{% endif %}>🌙 Dark Mode</option>
+    </select>
+</div>
 
         <button type="submit" class="btn btn-success fw-bold px-4">Save Changes</button>
     </form>
