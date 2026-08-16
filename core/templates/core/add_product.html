@@ -105,7 +105,7 @@
         </form>
     </div>
 
-    <!-- jQuery for Dynamic Subcategories -->
+   <!-- jQuery for Dynamic Subcategories -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $('#id_category').change(function () {
@@ -118,7 +118,7 @@
                 subcategorySelect.prop('disabled', false);
                 
                 $.ajax({
-                    url: "{% url 'load_subcategories' %}",
+                    url: "{% url 'ajax_load_subcategories' %}",
                     data: {
                         'category_id': categoryId
                     },
