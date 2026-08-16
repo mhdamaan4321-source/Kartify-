@@ -9,26 +9,51 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; margin: 0; padding: 0; }
-        header { background: #00aa6c; color: white; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; }
-        .settings-container { max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .admin-box { background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 15px; border-radius: 4px; margin-top: 25px; }
+        header { background: #00aa6c; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        /* Account Sub-Header Tabs */
+        .account-tabs-container { background: white; border-bottom: 1px solid #ddd; padding: 0 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .account-tabs { display: flex; gap: 15px; flex-wrap: wrap; }
+        .account-tab-item { padding: 12px 15px; font-weight: bold; color: #555; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.2s; font-size: 14px; }
+        .account-tab-item:hover { color: #00aa6c; }
+        .account-tab-item.active { color: #00aa6c; border-bottom: 3px solid #00aa6c; }
+
+        .settings-container { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .admin-box { background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 15px; border-radius: 4px; margin-top: 25px; font-size: 14px; }
+
+        @media (min-width: 768px) {
+            header { padding: 12px 25px; }
+            .account-tabs-container { padding: 0 25px; }
+            .account-tabs { gap: 20px; }
+            .account-tab-item { padding: 12px 20px; font-size: 16px; }
+            .settings-container { margin: 40px auto; padding: 30px; }
+            .admin-box { font-size: 15px; }
+        }
     </style>
 </head>
 <body>
 
 <header>
     <a href="{% url 'home' %}" class="text-white text-decoration-none fw-bold fs-4"><i class="fas fa-store"></i> Kartify</a>
-    <a href="{% url 'my_ads' %}" class="btn btn-sm btn-light fw-bold text-dark"><i class="fas fa-user"></i> My Account</a>
+    <a href="{% url 'home' %}" class="btn btn-sm btn-light fw-bold text-dark"><i class="fas fa-home"></i> Back to Home</a>
 </header>
 
+<!-- Account Navigation Tabs -->
+<div class="account-tabs-container">
+    <div class="account-tabs">
+        <a href="{% url 'my_ads' %}" class="account-tab-item"><i class="fas fa-list"></i> My Ads</a>
+        <a href="{% url 'settings' %}" class="account-tab-item active"><i class="fas fa-cog"></i> Settings</a>
+    </div>
+</div>
+
 <div class="settings-container">
-    <h2 class="mb-4" style="color: #002f34;"><i class="fas fa-cog"></i> Account Settings</h2>
+    <h2 class="mb-4" style="color: #002f34; font-size: 22px;"><i class="fas fa-cog"></i> Account Settings</h2>
 
     <form method="POST">
         {% csrf_token %}
         
         <!-- Personal Information -->
-        <h5 class="text-secondary mb-3">Personal Information</h5>
+        <h5 class="text-secondary mb-3" style="font-size: 16px;">Personal Information</h5>
         
         <div class="mb-3">
             <label class="form-label fw-semibold">Name</label>
@@ -51,7 +76,7 @@
         </div>
 
         <!-- Theme Preferences -->
-        <h5 class="text-secondary mt-4 mb-3">Appearance</h5>
+        <h5 class="text-secondary mt-4 mb-3" style="font-size: 16px;">Appearance</h5>
         <div class="mb-4">
             <label class="form-label fw-semibold">Theme Mode</label>
             <select name="theme_preference" class="form-control">
@@ -65,7 +90,7 @@
 
     <!-- Admin Contact Section -->
     <div class="admin-box">
-        <h5 class="text-success fw-bold"><i class="fas fa-headset"></i> Admin Contact Support</h5>
+        <h5 class="text-success fw-bold" style="font-size: 16px;"><i class="fas fa-headset"></i> Admin Contact Support</h5>
         <p class="mb-2">If you have any issues or queries, contact the Admin (<b>Mohamed Amaan</b>):</p>
         <p class="mb-1"><strong><i class="fas fa-envelope"></i> Email:</strong> mhdamaan4321@gmail.com</p>
         <p class="mb-0"><strong><i class="fab fa-whatsapp text-success"></i> WhatsApp:</strong> <a href="https://wa.me/94751205296" target="_blank" class="text-decoration-none text-success fw-bold">+94 75 120 5296</a></p>
