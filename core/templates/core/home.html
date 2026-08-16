@@ -154,14 +154,15 @@
                 <a href="{% url 'product_detail' product.id %}" class="product-card">
                     <!-- Display first image if available -->
                     {% if product.images.all %}
-                        <img src="{{ product.images.first.image.url }}" alt="{{ product.title }}">
+                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
                     {% else %}
                         <img src="{% static 'images/no-image.png' %}" alt="No Image">
                     {% endif %}
                     
                     <div class="product-info">
                         <div>
-                            <h4 class="product-title">{{ product.title }}</h4>
+                            <!-- Corrected from product.title to product.name -->
+                            <h4 class="product-title">{{ product.name }}</h4>
                             <div class="product-price">Rs. {{ product.price }}</div>
                         </div>
                         <div class="product-location">📍 {{ product.city.name|default:"Sri Lanka" }}</div>
