@@ -5,6 +5,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from core.views import custom_logout
 
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # ... ungaloda other url patterns ...
+    path('load-subcategories/', views.load_subcategories, name='load_subcategories'),
+]
+
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('product/<int:pk>/', views.product_detail, name='product_detail'),
