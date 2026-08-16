@@ -65,10 +65,17 @@ def home_view(request):
     }
     return render(request, 'core/home.html', context)
 
-# Product Detail View
-def product_detail_view(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    return render(request, 'core/product_detail.html', {'product': product})
+# Product Detail View (Updated with Similar Ads)
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    # Ore category-la irukkira ana oru 4 similar products-ah edukka:
+    similar_products = Product.objects.filter(category=product.category).exclude(pk=product.pk)[:4]
+    
+    context = {
+        'product': product,
+        'similar_products': similar_products,
+    }
+    return render(request, 'core/product_detail.html', context)
 
 # User Registration View
 def register_view(request):
