@@ -29,6 +29,19 @@
 </head>
 <body>
 
+    <!-- Security Alarm Audio Triggered if inappropriate content detected -->
+    {% if request.session.trigger_alarm %}
+    <audio autoplay loop id="alarmAudio">
+        <source src="https://www.soundjay.com/buttons/sounds/beep-01a.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            var audio = document.getElementById('alarmAudio');
+            audio.play().catch(error => console.log("Audio play blocked by browser policy: ", error));
+        });
+    </script>
+    {% endif %}
+
     <!-- Header / Navbar Control: Home page gets full navbar, others get minimal back bar -->
     {% if request.resolver_match.url_name == 'home' %}
     <!-- FULL NAVBAR FOR HOME PAGE ONLY -->

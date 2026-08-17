@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, SubCategory, Product, ProductImage, City
+from .models import Category, SubCategory, Product, ProductImage, City, UserProfile, ChatMessage
 
 # SubCategory-ah Category page-laye add panna Inline
 class SubCategoryInline(admin.TabularInline):
@@ -25,13 +25,28 @@ class ProductImageInline(admin.TabularInline):
 # Product model display and management
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'price', 'city', 'category', 'subcategory')
-    search_fields = ('title', 'user__username')
-    list_filter = ('city', 'category', 'subcategory')
+    list_display = ('title', 'user', 'price', 'city', 'category', 'subcategory', 'created_at', 'is_approved')
+    search_fields = ('title', 'user__username', 'description')
+    list_filter = ('city', 'category', 'subcategory', 'created_at', 'is_approved')
     inlines = [ProductImageInline]
 
 
-# City model registration (Admin only)
+# City model registration
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
     list_display = ('name',)
+
+
+# UserProfile model registration
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'whatsapp_number', 'theme_preference')
+    search_fields = ('user__username', 'whatsapp_number')
+
+
+# ChatMessage model registration
+@admin.register(ChatMessage)
+class ChatMessageAdmin(admin.ModelAdmin):
+    list_display = ('sender', 'receiver', 'product', 'timestamp')
+    search_fields = ('sender__username', 'receiver__username', 'message')
+    list_filter = ('timestamp',)

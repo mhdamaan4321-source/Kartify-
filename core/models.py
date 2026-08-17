@@ -29,7 +29,10 @@ class Product(models.Model):
     description = models.TextField()
     phone_number = models.CharField(max_length=20)
     city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    
+    # Date/Time & Admin Approval fields
     created_at = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -45,7 +48,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     whatsapp_number = models.CharField(max_length=20, blank=True, null=True)
     home_address = models.TextField(blank=True, null=True)
-    theme_preference = models.CharField(max_length=10, default='light')  # 'light' or 'dark'
+    theme_preference = models.CharField(max_length=10, default='light')
 
     def __str__(self):
         return self.user.username
