@@ -7,6 +7,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
 class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
     name = models.CharField(max_length=100)
@@ -14,11 +18,19 @@ class SubCategory(models.Model):
     def __str__(self):
         return f"{self.category.name} -> {self.name}"
 
+    class Meta:
+        verbose_name = 'Subcategory'
+        verbose_name_plural = 'Subcategories'
+
 class City(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'City'
+        verbose_name_plural = 'Cities'
 
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,12 +49,20 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='product_images/')
 
     def __str__(self):
         return f"Image for {self.product.title if self.product else 'Product'}"
+
+    class Meta:
+        verbose_name = 'Product Image'
+        verbose_name_plural = 'Product Images'
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -53,6 +73,10 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    class Meta:
+        verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
+
 class ChatMessage(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
@@ -62,3 +86,7 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f'{self.sender} to {self.receiver}: {self.message[:20]}'
+
+    class Meta:
+        verbose_name = 'Chat Message'
+        verbose_name_plural = 'Chat Messages'

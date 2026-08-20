@@ -1,3 +1,5 @@
+from datetime import timedelta
+from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
@@ -67,20 +69,28 @@ def home(request):
     cities = City.objects.all()
     categories = Category.objects.all()
     
+    # Last 1 week-kulla add aanathu (Explore Products / Horizontal Scrolling)
+    one_week_ago = timezone.now() - timedelta(days=7)
+    recent_products = Product.objects.filter(created_at__gte=one_week_ago, is_approved=True).order_by('-created_at')
+    
     query = request.GET.get('q')
     if query:
         products = products.filter(title__icontains=query)
+        recent_products = recent_products.filter(title__icontains=query)
         
     city_id = request.GET.get('city')
     if city_id:
         products = products.filter(city_id=city_id)
+        recent_products = recent_products.filter(city_id=city_id)
         
     category_id = request.GET.get('category')
     if category_id:
         products = products.filter(category_id=category_id)
+        recent_products = recent_products.filter(category_id=category_id)
         
     context = {
         'products': products,
+        'recent_products': recent_products,
         'cities': cities,
         'categories': categories,
         'search_query': query if query else '',
@@ -99,6 +109,15 @@ def product_detail(request, pk):
         'similar_products': similar_products,
     }
     return render(request, 'core/product_detail.html', context)
+
+# Add to Cart View
+@login_required
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    # Neenga Cart model create panniruntha anga save pannanum.
+    # Eg: Cart.objects.get_or_create(user=request.user, product=product)
+    messages.success(request, f"{product.title} added to cart successfully!")
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
 
 # User Registration View
 def register_view(request):
